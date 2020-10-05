@@ -4,4 +4,5 @@ Esse repositório é voltado para projetos na área de finanças e procurarei ut
 
 # Projetos
 
-1) Projeto Análise Fundamentalista: Aplicação da biblioteca *Fundamental Analysis* para gerar indicadores para avaliação da *Tesla* e de suas ações.
+1) **Projeto Análise Fundamentalista**
+Aplicação da biblioteca *Fundamental Analysis* para gerar indicadores para avaliação da *Tesla* e de suas ações.
