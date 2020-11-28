@@ -10,3 +10,5 @@ Aplicação da biblioteca *Fundamental Analysis* para gerar indicadores para ava
 2) **Análise de Portfólio**
 Aplicação de métodos de análise de portfólios (Retornos esperados, Volatilidade, Fronteira eficiente, Modelo *CAPM* e Índice de *Sharpe*) para análise de uma carteira de ativos escolhidos de forma aleatória.
 
+2) **Análise de Portfólio com  PyPortfolioOpt**
+Aplicação da biblioteca  PyPortfolioOpt para análise de portfólios (Retornos esperados, Volatilidade, Fronteira eficiente e *Clusters* de ativos).
