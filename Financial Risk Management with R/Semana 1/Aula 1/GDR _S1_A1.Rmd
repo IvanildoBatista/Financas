@@ -1,0 +1,71 @@
+---
+title: "Aula 1 - Semana 1"
+author: "Ivanildo Batista"
+date: "8 de fevereiro de 2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Curso Financial Risk Management with R - Semana 1
+
+### Retrieving Data from FRED (Aula 1)
+
+O objetivo dessa aula e extrair dados do FRED, que uma base de dados do FED (conjunto de banco que orientam a politica monetaria americana). Essa base de dados compreende 
+dados macroeconomicos (como PIB, oferta de monetaria, inflacao, etc), dados setorias,
+dados populacionais e de outros tipos.
+
+Agora irei instalar a biblioteca QUANTMOD para realizar a extracao de dados que temos interesse:
+```{r}
+library(quantmod)
+```
+
+**Indice WILLSHIRE 5000 TOTAL MARKET INDEX**
+
+Irei extrair o indice Wilshire 5000 que e um indice que representa um portfolio que investe em acoes de todas as empresas negociadas nos Estados Unidos da America.Os dados dessa serie sao diarios e vao dos anos de 1971 ate 2017. Usando a biblioteca QUANTMOD irei importar os dados desse indice apara uma variavel, conforme abaixo:
+
+```{r}
+wilsh = getSymbols("WILL5000IND", src = "FRED", auto.assign = FALSE)
+```
+
+Visualizando a serie em uma tabela:
+```{r}
+View(wilsh)
+```
+A serie de dados pode apresentar dados faltantes, principalmente por ter periodos que
+nao foram registrados, que sao os casos de sabados e domingos. Por isso os dados do 
+tipo NA serao removidos. Antes irei verificar se ha dados faltantes:
+
+```{r}
+sum(is.na(wilsh))
+```
+Vemos que temos 2581 dados faltantes, entao eles serao removidos:
+```{r}
+wilsh = na.omit(wilsh)
+```
+Verificando novamente se ha dados faltantes:
+```{r}
+sum(is.na(wilsh))
+```
+Irei selecionar os dados para que estejam de 31 de Dezembro de 1971 ate 31 de Dezembro de 2017:
+```{r}
+wilsh = wilsh['1979-12-31/2017-12-31']
+```
+Renomeando a variavel:
+```{r}
+names(wilsh) = "TR"
+```
+Visualizando as primeiras linhas
+```{r}
+head(wilsh)
+```
+Visualizando as ultimas linhas
+```{r}
+tail(wilsh)
+```
+Percebemos que do comeco da nossa serie ate o seu final, houve um aumento medio de 65 vezes do valor desse indice, porem isso nao foi de forma instantanea. No grafico abaixo podemos ver a trajetoria do indice ao longo do tempo e que ha muito altos e baixos.
+```{r}
+plot(wilsh)
+```
