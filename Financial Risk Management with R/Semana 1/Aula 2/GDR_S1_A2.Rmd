@@ -1,0 +1,83 @@
+---
+title: "Aula 2 -  Semana 1"
+author: "Ivanildo Batista"
+date: "9 de fevereiro de 2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Curso Financial Risk Management with R - Semana 1
+
+### Calculating Daily Returns (Aula 2)
+
+O objetivo dessa aula e calcular os retornos diarios do indice WILSHIRE 5000, que foi extraido na aula anterior.
+
+O calculo de retorno e realizado dividindo o valor atual do indice pelo valor do dia 
+anterior e subtraindo 1 (um), conforme abaixo
+$$
+ret_t = \frac{wilsh_t}{wilsh_{t-1}} - 1
+$$
+Os resultados podem ser negativos e positivos, mas ha uma limitacao. Os valores
+negativos nao podem ser menores que -1 (menos um), ou seja, a variacao do valor do 
+indice de um dia para o outro nao pode ser menor que -100%, mas os resultados positivo da variacao podem ultrapassar os 100%. Isso nao apresenta resultados simetrico, por isso e melhor utilizar o logaritmo desse resultado.
+
+Para usar o logaritmo soma-se 1 ao valor da variacao do indice (todos os valores) e depois tiramos o logaritmo (tambem podemos pegar o logaritmo do dia atual menos o logaritmo do dia anterior) e, por fim, encontramos o valor do retorno invertendo o logaritmo com a funcao exponencial. Abaixo podemos ver como e feito esse calculo:
+
+$$
+logret_t = log(1+ret_t)
+$$
+ou
+$$
+logret_t = log(wilsh_t) - log(wilsh_{t-1})
+$$
+
+Antes irei realizar todos os procedimentos da aula anterior.
+```{r}
+library(quantmod)
+wilsh = getSymbols("WILL5000IND", src = "FRED", auto.assign = FALSE)
+wilsh = na.omit(wilsh)
+wilsh = wilsh['1979-12-31/2017-12-31']
+names(wilsh) = "TR"
+```
+
+**Calculando o retorno**
+```{r}
+logret  = diff(log(wilsh$TR))
+head(logret,3)
+```
+
+Verificando se ha valores faltantes:
+```{r}
+sum(is.na(logret))
+```
+
+Removendo o valor faltante:
+```{r}
+logret = diff(log(wilsh$TR))[-1]
+round(head(logret,3),6)
+```
+
+Agora, vemos que nao ha valores faltantes.
+```{r}
+sum(is.na(logret))
+```
+
+Plotando os retornos logaritmicos diarios:
+```{r}
+plot(logret)
+```
+
+Encontrando o retorno do logaritmo do retorno
+```{r}
+ret = exp(logret) - 1
+round(head(ret,3),6)
+```
+
+Plotando o grafico dos retornos diarios
+```{r}
+plot(ret)
+
+```
