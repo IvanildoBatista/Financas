@@ -1,0 +1,124 @@
+---
+title: "Aula 3 - Semana 1"
+author: "Ivanildo Batista"
+date: "9 de fevereiro de 2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Curso Financial Risk Management with R - Semana 1
+
+### Calculating Longer Returns (Aula 3)
+
+Nessa aula foi ensinado sobre o calculo de retornos para periodos maiores que 1 dia.
+Esse periodo para calcular o retorno pode ser 2 dias, 3 dias, uma semana, um mes, um
+ano, etc.
+
+Como dito anteriormente, para calcular o retorno comecamos com o logaritmo do retorno para um dia, calcula-se o retorno de *t-1* para *t*
+
+$$
+  logret_t
+$$
+Calculando o logaritmo do retorno para 2 dias, teremos que fazer de *t-2* para *t*:
+
+$$
+   logret_t + logret_{t-1}
+$$
+Para encontrar o retorno discreto *exponencializando* o resultado anterior e subtraindo o valor 1:
+
+$$
+   exp(logret_t + logret_{t-1}) - 1
+$$
+Quando queremos encontrar o logaritmo do retorno para periodos de tempo maiores, seguimos o seguinte passo:
+
+Calculamos o logaritmo do retorno
+$$
+  logret_t
+$$
+Calcula-se o logaritmo do retorno para *n* dias:
+$$
+  logret_t + logret_{t-1} + logret_{t-2} + ... + logret_{t-n+1}
+$$
+E, por fim, *exponencializamos* esse resultado e subtraimos 1:
+$$
+  exp(logret_t + logret_{t-1} + logret_{t-2} + ... + logret_{t-n+1}) - 1
+$$
+
+Antes de realizarmos os calculos, irei fazer o que foi feito nas aulas passadas:
+```{r}
+library(quantmod)
+wilsh = getSymbols("WILL5000IND", src = "FRED", auto.assign = FALSE)
+wilsh = na.omit(wilsh)
+wilsh = wilsh['1979-12-31/2017-12-31']
+names(wilsh) = "TR"
+```
+
+**Retornos diarios**
+
+```{r}
+logret_d = apply.daily(wilsh,sum)
+```
+Visualizando as tres primeiras linhas
+```{r}
+round(head(logret_d,3),6)
+```
+plotando o grafico de retornos diarios
+```{r}
+plot(logret_d)
+```
+
+**Retornos semanais**
+
+```{r}
+logret_w = apply.weekly(wilsh,sum)
+```
+Visualizando as tres primeiras linhas
+```{r}
+round(head(logret_w,3),6)
+```
+plotando o grafico de retornos semanais
+```{r}
+plot(logret_w)
+```
+
+**Retornos mensais**
+```{r}
+logret_m = apply.monthly(wilsh,sum)
+```
+Visualizando as tres primeiras linhas
+```{r}
+round(head(logret_m,3),6)
+```
+plotando o grafico de retornos mensais
+```{r}
+plot(logret_m)
+```
+
+**Retornos trimestrais**
+```{r}
+logret_q = apply.quarterly(wilsh,sum)
+```
+Visualizando as tres primeiras linhas
+```{r}
+round(head(logret_q,3),6)
+```
+plotando o grafico de retornos trimestrais
+```{r}
+plot(logret_q)
+```
+
+**Retornos anuais**
+```{r}
+logret_y = apply.yearly(wilsh,sum)
+```
+Visualizando as tres primeiras linhas
+```{r}
+round(head(logret_y,3),6)
+```
+plotando o grafico de retornos anuais
+```{r}
+plot(logret_y)
+```
