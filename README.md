@@ -14,5 +14,6 @@ Aplicação de métodos de análise de portfólios (Retornos esperados, Volatili
 Aplicação da biblioteca *PyPortfolioOpt* para análise de portfólios (Retornos esperados, Volatilidade, Fronteira eficiente e *Clusters* de ativos).
 
 4) **Financial Risk Management with R**
+Curso do *Coursera*
 
 
