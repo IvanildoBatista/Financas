@@ -1,0 +1,74 @@
+---
+title: "Aula 1 - Semana 2"
+author: "Ivanildo Batista"
+date: "12 de fevereiro de 2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+##Curso Financial Risk Management with R - Semana 2
+
+##Distribution of Returns (Aula 1)
+
+Nessa aula foi discutido sobre a distribuicao normal, que seria a distribuicao ideal
+para os retornos analisados. 
+
+**Caracteristicas da distribuicao normal**
+
+1) Possui dois  parametros : a media e o desvio padrao;
+
+2) E a mais conhecida das distribuicoes de probabilidade;
+
+3) Sob Teorema do Limite Central, o somatorio de numeros aleatorios pode ser aproximado para uma distribuicao normal.
+
+Se os retornos sao normalmente distribuidos, o valor em risco e a queda curta esperada sao facilmente calculados, mas caso nao possuam um comportamento normal o calculo do valor em risco e da queda curta esperada sao mais dificeis se de obter.
+
+Tambem foi tratado sobre a distribuicao normal padrao, que possui media zero e desvio
+padrao igual a um. Usamos a notacao 
+
+$$
+    X \sim N(0,1).
+$$
+Para dizer que uma variavel aleatoria X possui distribuicao normal padrao.
+
+A funcao densidade de probabilidade e dado por 
+
+$$
+  f(x) = \frac{1}{2\pi}e^{-\frac{x^2}{2}}
+$$
+
+A distribuicao normal geral possui a notacao
+
+$$
+  e \sim N(\mu, \sigma)
+$$
+Entao temos que 
+
+$$
+  X = \mu + \sigma.e \sim N(\mu, \sigma)
+$$
+Realizando os procedimentos das aulas anteriores:
+```{r}
+library(quantmod)
+wilsh = getSymbols("WILL5000IND", src = "FRED", auto.assign = FALSE)
+wilsh = na.omit(wilsh)
+wilsh = wilsh['1979-12-31/2017-12-31']
+names(wilsh) = "TR"
+```
+Gerando os retornos diarios
+
+```{r}
+logret = apply.daily(wilsh,sum)
+```
+Irei calcular a media amostral e o desvio padrao amostral:
+
+```{r}
+round(mean(logret),8)
+```
+
+```{r}
+round(sd(logret),8)
+```
