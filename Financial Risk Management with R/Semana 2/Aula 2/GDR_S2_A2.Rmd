@@ -1,0 +1,51 @@
+---
+title: "Value-At-Risk (Aula 2)"
+author: "Ivanildo Batista"
+date: "14 de fevereiro de 2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+###Aula 2 - Semana 2
+
+**Value-At-Risk (VaR)**: quantia que um portfolio pode perder, com uma dada probabilidade, (1-alfa), sobre uma dado periodo. O valor de alfa pode ser 0.1, 0.05 ou 0.01 e o periodo pode ser de um dia ou de uma semana.
+
+Se o valor de alfa for de 0.05, entao o **VaR** e o quantil de 5% da funcao de distribuicao de probabilidade. Significa que os retornos que estamos analisando estarao 95% das vezes acima do quantil 5%, e em 5% das vezes abaixo desse quantil.
+
+Para calcular o VaR, primeiramente, irei realizar os passos das aulas anteriores:
+```{r}
+library(quantmod)
+wilsh = getSymbols("WILL5000IND", src = "FRED", auto.assign = FALSE)
+wilsh = na.omit(wilsh)
+wilsh = wilsh['1979-12-31/2017-12-31']
+names(wilsh) = "TR"
+```
+
+Criando os retornos diarios:
+
+```{r}
+logret = apply.daily(wilsh,sum)
+```
+Conforme aula anterior estamos assumindo que logret possui uma distribuicao normal agora vamos calcular a media e o desvio padrao amostral.
+
+Media amostral:
+```{r}
+mu = round(mean(logret),8)
+mu
+```
+
+Desvio padrao amostral:
+```{r}
+sig = round(sd(logret),8)
+sig
+```
+Por fim, irei calcular o **VaR**
+
+```{r}
+VaR = round(qnorm(0.05,mu,sig),6)
+VaR
+```
+
