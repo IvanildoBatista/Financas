@@ -1,0 +1,81 @@
+---
+title: "Using Simulation to Estimate VaR and ES (Aula 4)"
+author: "Ivanildo Batista"
+date: "1 de marco de 2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Aula 4 - Semana 2
+
+##Usando simulacao para estimar o VaR e o ES
+
+Para estimar o quantil alpha de uma distribuicao podemos simular alguns dados dessa distribuicao e tomar o quantil alpha dos dados simulados.
+
+O VaR e o quantil alpha de uma distribuicao, entao este metodo de simulacao deve funcionar. Vamos supor que queremos calcular o VaR no intervalo de confianca de 95%. Digamos que o retorno vem de uma distribuicao normal (nossa hipotese ate agora). Pode-se simular um amostra de 10.000 resultados da distribuicao normal e quinto percentil dos dados simulados e uma estimativa do VaR.
+
+Uma vez que tenha-se estimado o VaR usamos dados simulados, tambem pode-se encontrar o deficit esperado com bastante facilidade. Pega-se os dados simulados e matenhamos apenas os resultados que sao os piores do que o VaR estimado; e a media deles e uma estimativa do deficit esperado. Se o tamanho amostral da simulacao aumentar, essas duas estimativas devem ser muito proximas dos valores reais. O metodo de simulacao e uma boa maneira de verificar nossas formulas quanto ao valor em risco e ao deficit esperado.
+
+Vamos desenhar uma amostra com 100.000 resultados da distribuicao normal, com media mu e desvio padrao sig. O VaR e o quantil alpha desses 100.000 resultados e o ES e a media dos resultados que sao piores do que o VaR ou pior 100.000 x alpha resultados.
+
+Vamos realizar os mesmos procedimentos das aulas anteriores
+
+```{r}
+library(quantmod)
+wilsh = getSymbols("WILL5000IND", src = "FRED", auto.assign = FALSE)
+wilsh = na.omit(wilsh)
+wilsh = wilsh['1979-12-31/2017-12-31']
+names(wilsh) = "TR"
+```
+
+Criando os retornos diarios
+```{r}
+logret = apply.daily(wilsh,sum)
+```
+
+Media amostral
+```{r}
+mu = round(mean(logret),8)
+mu
+```
+
+Desvio padrao amostral
+```{r}
+sig = round(sd(logret),8)
+sig
+```
+
+**SIMULACAO COM BASE NA DISTRIBUICAO NORMAL**
+```{r}
+alpha = 0.05
+set.seed(123789)
+rvec1 = rnorm(100000,mu,sig)
+VaR1 = quantile(rvec1, alpha)
+ES1=mean(rvec1[rvec1<VaR1])
+
+VaR1
+
+ES1
+```
+
+**SIMULACAO COM BASE NA DISTRIBUICAO DOS DADOS** (sem supor normalidade nos dados)
+```{r}
+alpha = 0.05
+set.seed(123789)
+rvec2 = sample(as.vector(logret),100000,replace = TRUE)
+VaR2 = quantile(rvec2, alpha)
+ES2=mean(rvec2[rvec2<VaR2])
+
+VaR2
+
+ES2
+```
+
+Distribuicao dos dados
+```{r}
+hist(rvec1)
+hist(rvec2)
+```
