@@ -7,4 +7,4 @@
  descreve os ativos - bens e direitos - e passivos - obrigações- da mesma historicamente), demonstração dos resultado (documento de natureza econômica que exibe a situação contábil  do ano de referência) e o preço diário das ações.
  
 Geralmente pode-se demorar muito para gerar um relatório desse tipo, para avaliar a empresa e a decisão de comprar ou não determinada ação. Por esse motivo existe a biblioteca 
-Fundamental Analysis que extrai informações sobre ações de empresas listadas em bolsas americanas e europeias (infelizmente, até o momento, não identifiquei uma biblioteca que analise os dados de empresas brasileiras).
+*Fundamental Analysis* que extrai informações sobre ações de empresas listadas em bolsas americanas e europeias (infelizmente, até o momento, não identifiquei uma biblioteca que analise os dados de empresas brasileiras).
