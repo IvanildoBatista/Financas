@@ -1,6 +1,6 @@
 # Finanças
 
-Esse repositório é voltado para projetos na área de finanças, onde procurarei utilizar métodos e bibliotecas de linguagem de programação *Python* e *R*.
+Esse repositório é voltado para projetos na área de finanças, onde procurarei utilizar métodos e bibliotecas de linguagem de programação *Python* e *R*, como criação de portfólios, gestão de risco, extração de dados financeiros com bibliotecas de *Python* e *R*, análise fundamentalista, etc.
 
 ## Projetos e cursos
 
